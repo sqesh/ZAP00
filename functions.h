@@ -118,7 +118,7 @@ Matrix<Type> createMatrixA(unsigned n, double thermalConductivity, double therma
 }
 
 template <typename Type>
-Matrix<Type> createMatrixA(unsigned n, double thermalTransfer, double area, double lenght, double temperatureLeftSide, double temperatureRightSIde, double temperatureOutside)
+Matrix<Type> createMatrixB(unsigned n, double thermalTransfer, double area, double lenght, double temperatureLeftSide, double temperatureRightSIde, double temperatureOutside)
 {
     Matrix<Type> output(n,n);
     double dx = lenght / n;
@@ -130,5 +130,6 @@ Matrix<Type> createMatrixA(unsigned n, double thermalTransfer, double area, doub
         else output[height][0] = temp2*temperatureOutside;
     }
 }
+
 
 #endif // FUNCTIONS_H
