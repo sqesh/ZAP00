@@ -16,7 +16,7 @@ void saveMatrix(Matrix<Type> input, std::string filename)
     {
         for(unsigned height=0; height<input.height(); height++)
         {
-            for(int width=0; width<input.width(); width++)
+            for(unsigned width=0; width<input.width(); width++)
             {
                 outputFile << input[height][width];
                 if(width<(input.width()-1))outputFile << '\t';
@@ -40,7 +40,7 @@ void saveMatrixForMatLab(Matrix<Type> input, std::string filename)
         outputFile << '[';
         for(unsigned height=0; height<input.height(); height++)
         {
-            for(int width=0; width<input.width(); width++)
+            for(unsigned width=0; width<input.width(); width++)
             {
                 outputFile << input[height][width];
                 if(width<(input.width()-1))outputFile << ' ';
@@ -75,7 +75,7 @@ Matrix<Type> loadMatrix(std::string filename)
         Matrix<Type> output(height,width);
         for(unsigned height=0; height<output.height(); height++)
         {
-            for(int width=0; width<output.width(); width++)
+            for(unsigned width=0; width<output.width(); width++)
             {
                 inputFile >> output[height][width];
             }
@@ -83,6 +83,7 @@ Matrix<Type> loadMatrix(std::string filename)
         inputFile.close();
         return output;
     }
+
 }
 
 template <typename Type>
@@ -104,7 +105,7 @@ Matrix<Type> createMatrixA(unsigned n, double thermalConductivity, double therma
     Matrix<Type> output(n,n);
     double dx = lenght / n;
     double temp1 = (thermalConductivity * area) /dx;
-    double temp2 = 2*thermalTransfer*sqrt(3.14*area)*dx;
+    double temp2 = 2*thermalTransfer*sqrt(M_PI*area)*dx;
     for(unsigned height=0; height<output.height() ; height++)
     {
         for(unsigned width=0; width<output.width() ; width++)
@@ -115,20 +116,22 @@ Matrix<Type> createMatrixA(unsigned n, double thermalConductivity, double therma
             else  output[height][width] = 0;
         }
     }
+    return output;
 }
 
 template <typename Type>
 Matrix<Type> createMatrixB(unsigned n, double thermalTransfer, double area, double lenght, double temperatureLeftSide, double temperatureRightSIde, double temperatureOutside)
 {
-    Matrix<Type> output(n,n);
+    Matrix<Type> output(n,1);
     double dx = lenght / n;
-    double temp2 = 2*thermalTransfer*sqrt(3.14*area)*dx;
-    for(unsigned height ; height < output.height(); height++)
+    double temp2 = 2*thermalTransfer*sqrt(M_PI*area)*dx;
+    for(unsigned height=0 ; height < output.height(); height++)
     {
         if(height==0) output[height][0] = temperatureLeftSide;
         else if(height==output.height()-1) output[height][0] = temperatureRightSIde;
         else output[height][0] = temp2*temperatureOutside;
     }
+    return output;
 }
 
 

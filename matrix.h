@@ -6,9 +6,9 @@ class Matrix
 {
 private:
     Type **data_{nullptr};
-    unsigned height_;
-    unsigned width_;
-    Matrix<Type>& operator=(Matrix<Type> const& matrix);
+    unsigned height_=0;
+    unsigned width_ =0;
+
 public:
     Matrix(){}
     Matrix(unsigned height, unsigned width):height_(height),width_(width)
@@ -51,6 +51,35 @@ public:
     Type const *operator [](unsigned index) const
     {
         return data_[index];
+    }
+
+    Matrix<Type>& operator=(Matrix<Type> const& matrix)
+    {
+        if((height() != matrix.height() )||( width() != matrix.width()))
+        {
+            for(unsigned i=0;i<height(); i++)
+            {
+                delete[]data_[i];
+            }
+            delete[]data_;
+
+            height_ = matrix.height();
+            width_ = matrix.width();
+
+            data_ = new Type *[height()];
+            for(unsigned i=0; i<height() ; i++)
+            {
+                data_[i] = new Type [width()];
+            }
+        }
+
+        for(unsigned h=0; h<height() ; h++)
+        {
+            for(unsigned w=0; w<width() ; w++)
+            {
+                data_[h][w]=matrix.data_[h][w];
+            }
+        }
     }
 
     ~Matrix()

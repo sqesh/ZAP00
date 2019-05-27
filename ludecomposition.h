@@ -1,6 +1,7 @@
 #ifndef LUDECOMPOSITION_H
 #define LUDECOMPOSITION_H
 #include "matrix.h"
+#include "functions.h"
 template <typename Type>
 struct SplittenMatrix
 {
@@ -14,8 +15,8 @@ SplittenMatrix<Type> splitMatrixDiagonally(Matrix<Type> const& input)
     if(input.height() == input.width())
     {
         SplittenMatrix<Type> splittenMatrix;
-        Matrix<Type> lowerMatrix;
-        Matrix<Type> upperMatrix;
+        Matrix<Type> lowerMatrix(input.height(),input.width());
+        Matrix<Type> upperMatrix(input.height(),input.width());
         for (unsigned i = 0; i < input.height(); i++)
         {
             for (unsigned j = 0; j < input.height(); j++)
@@ -64,23 +65,34 @@ Matrix<Type> solveFromLowerMatrix(SplittenMatrix<Type> splitenMatrix, Matrix<Typ
             tempMatrix[i][0] -= (splitenMatrix.lower[i][j]*tempMatrix[j][0])/splitenMatrix.lower[i][i];
         }
     }
+    return tempMatrix;
 }
 
 template <typename Type>
 Matrix<Type> solveFromUpperMatrix(SplittenMatrix<Type> splittenMatrix, Matrix<Type> tempMatrix)
 {
     Matrix<Type> solvedMatrix(splittenMatrix.upper.height(),1);
-    for(unsigned i = solvedMatrix.height(); i>=0; i--)
+    for(int i = solvedMatrix.height()-1; i>=0; i--)
     {
         solvedMatrix[i][0] = tempMatrix[i][0];
-        for(unsigned j = solvedMatrix.height(); j>i; j--)
+        for(unsigned j = solvedMatrix.height()-1; j>i; j--)
         {
             solvedMatrix[i][0] -= splittenMatrix.upper[i][j]*solvedMatrix[j][0];
         }
     }
-
+    return solvedMatrix;
 }
 
+template <typename Type>
+Matrix<Type> solveLUDecomposition(Matrix<Type> MatrixA, Matrix<Type> MatrixB)
+{
+    SplittenMatrix<Type> splittenMatrix = splitMatrixDiagonally(MatrixA);
+    saveMatrix(splittenMatrix.lower,"testLover.txt");
+    saveMatrix(splittenMatrix.upper,"saveUpper.txt");
+    Matrix<Type> tempMatrix = solveFromLowerMatrix(splittenMatrix, MatrixB);
+    Matrix<Type> solvedMatrix = solveFromUpperMatrix(splittenMatrix, tempMatrix);
+    return solvedMatrix;
+}
 
 
 #endif // LUDECOMPOSITION_H
