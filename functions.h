@@ -83,7 +83,8 @@ Matrix<Type> loadMatrix(std::string filename)
         inputFile.close();
         return output;
     }
-
+    Matrix<Type> matrix;
+    return matrix;
 }
 
 template <typename Type>

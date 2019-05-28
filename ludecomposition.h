@@ -51,6 +51,8 @@ SplittenMatrix<Type> splitMatrixDiagonally(Matrix<Type> const& input)
         splittenMatrix.upper = upperMatrix;
         return splittenMatrix;
     }
+    SplittenMatrix<Type> matrix;
+    return matrix;
 }
 
 template <typename Type>
@@ -75,7 +77,7 @@ Matrix<Type> solveFromUpperMatrix(SplittenMatrix<Type> splittenMatrix, Matrix<Ty
     for(int i = solvedMatrix.height()-1; i>=0; i--)
     {
         solvedMatrix[i][0] = tempMatrix[i][0];
-        for(unsigned j = solvedMatrix.height()-1; j>i; j--)
+        for(int j = solvedMatrix.height()-1; j>i; j--)
         {
             solvedMatrix[i][0] -= splittenMatrix.upper[i][j]*solvedMatrix[j][0];
         }
@@ -88,7 +90,7 @@ Matrix<Type> solveLUDecomposition(Matrix<Type> MatrixA, Matrix<Type> MatrixB)
 {
     SplittenMatrix<Type> splittenMatrix = splitMatrixDiagonally(MatrixA);
     saveMatrix(splittenMatrix.lower,"testLover.txt");
-    saveMatrix(splittenMatrix.upper,"saveUpper.txt");
+    saveMatrix(splittenMatrix.upper,"testUpper.txt");
     Matrix<Type> tempMatrix = solveFromLowerMatrix(splittenMatrix, MatrixB);
     Matrix<Type> solvedMatrix = solveFromUpperMatrix(splittenMatrix, tempMatrix);
     return solvedMatrix;
