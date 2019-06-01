@@ -1,8 +1,10 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
+
 #include "matrix.h"
 #include "functions.h"
 #include "ludecomposition.h"
+
 
 void run();
 void testCreateMatrix(unsigned height, unsigned width);

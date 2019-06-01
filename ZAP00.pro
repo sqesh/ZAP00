@@ -4,10 +4,12 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    interface.cpp
+    interface.cpp \
+    material.cpp
 
 HEADERS += \
     matrix.h \
     ludecomposition.h \
     functions.h \
-    interface.h
+    interface.h \
+    material.h
