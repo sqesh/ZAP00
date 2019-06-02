@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-    run();
+    interface();
 //    Matrix<int> testMatrix1;
 //    testCreateMatrix(10,10);
 //    testDuplicateMatrix(5,5);

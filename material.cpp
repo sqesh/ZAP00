@@ -1,6 +1,6 @@
 #include "material.h"
 
-void addMaterial(Material *head, std::ifstream file)
+Material *addMaterial(Material *&head, std::string rawMaterial)
 {
     Material *act;
     if (head==NULL)
@@ -18,16 +18,19 @@ void addMaterial(Material *head, std::ifstream file)
         act->next = new Material;
         act = act->next;
     }
-    file >> act->name;
-    file >> act->thermalConductivity;
-    file >> act->thermalTransfer;
-    file >> act->area;
-    file >> act->lenght;
+
+    std::stringstream strStream(rawMaterial);
+    strStream >> act->name;
+    strStream >> act->thermalConductivity;
+    strStream >> act->thermalTransfer;
+    strStream >> act->area;
+    strStream >> act->lenght;
+    return act;
 }
 
-void deleteMaterial(Material *head)
+void deleteMaterial(Material *&head)
 {
-    while(head == NULL)
+    while(head != NULL)
     {
         Material *act = head;
         head = head->next;
@@ -35,12 +38,13 @@ void deleteMaterial(Material *head)
     }
 }
 
-void showMaterials(Material *head)
+int showMaterials(Material *head)
 {
     Material *act = head;
-    std::cout << "List of materials:";
-    std::cout << "Name, Thetmal Conductivity, Thermal Transfer, Area, Lenght";
-    for(int i=1; act != NULL ; i++)
+    std::cout << "List of materials:" << '\n';
+    std::cout << "Name, Thetmal Conductivity, Thermal Transfer, Area, Lenght" << '\n';
+    int i=0;
+    for( i=1; act != NULL ; i++)
     {
         std::cout << i << ". ";
         std::cout << act->name << '\t';
@@ -48,19 +52,21 @@ void showMaterials(Material *head)
         std::cout << act->thermalTransfer << '\t';
         std::cout << act->area << '\t';
         std::cout << act->lenght << '\n';
+        act = act->next;
     }
+    return (i);
 }
 Material *chooseMaterial(Material *head, int number)
 {
     Material *act = head;
-    for(int i=0;(i<number) && (act != NULL);i++)
+    for(int i=0;(i<number-1) && (act != NULL);i++)
     {
         act = act->next;
     }
     return act;
 }
 
-void loadMaterials(Material *head, std::string filename)
+void loadMaterials(Material *&head, std::string filename)
 {
     std::ifstream inputFile;
     inputFile.open(&filename[0]);
@@ -68,9 +74,12 @@ void loadMaterials(Material *head, std::string filename)
     {
         while(!inputFile.eof())
         {
-            addMaterial(head,inputFile);
+            std::string tempString;
+            std::getline(inputFile,tempString);
+            if(!inputFile.eof())addMaterial(head,tempString);
         }
     }
+    inputFile.close();
 }
 void saveMaterials(Material *head, std::string filename)
 {
@@ -81,12 +90,13 @@ void saveMaterials(Material *head, std::string filename)
     {
         while(act!=NULL)
         {
-            std::cout << act->name << '\t';
-            std::cout << act->thermalConductivity << '\t';
-            std::cout << act->thermalTransfer << '\t';
-            std::cout << act->area << '\t';
-            std::cout << act->lenght << '\n';
+            outputFile << act->name << '\t';
+            outputFile << act->thermalConductivity << '\t';
+            outputFile << act->thermalTransfer << '\t';
+            outputFile << act->area << '\t';
+            outputFile << act->lenght << '\n';
             act = act->next;
         }
     }
+    outputFile.close();
 }

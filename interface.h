@@ -4,9 +4,11 @@
 #include "matrix.h"
 #include "functions.h"
 #include "ludecomposition.h"
+#include "material.h"
 
 
 void run();
+void interface();
 void testCreateMatrix(unsigned height, unsigned width);
 void testDuplicateMatrix(unsigned height,unsigned width);
 void testSaveMatrix(unsigned height,unsigned width);
