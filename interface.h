@@ -8,7 +8,7 @@
 
 
 void run();
-void interface();
+void interface(int argc, char *argv[]);
 void testCreateMatrix(unsigned height, unsigned width);
 void testDuplicateMatrix(unsigned height,unsigned width);
 void testSaveMatrix(unsigned height,unsigned width);

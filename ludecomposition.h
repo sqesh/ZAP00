@@ -89,8 +89,8 @@ template <typename Type>
 Matrix<Type> solveLUDecomposition(Matrix<Type> MatrixA, Matrix<Type> MatrixB)
 {
     SplittenMatrix<Type> splittenMatrix = splitMatrixDiagonally(MatrixA);
-    saveMatrix(splittenMatrix.lower,"testLover.txt");
-    saveMatrix(splittenMatrix.upper,"testUpper.txt");
+//    saveMatrix(splittenMatrix.lower,"testLover.txt");     //debug
+//    saveMatrix(splittenMatrix.upper,"testUpper.txt");     //debug
     Matrix<Type> tempMatrix = solveFromLowerMatrix(splittenMatrix, MatrixB);
     Matrix<Type> solvedMatrix = solveFromUpperMatrix(splittenMatrix, tempMatrix);
     return solvedMatrix;

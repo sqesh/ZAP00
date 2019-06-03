@@ -3,13 +3,10 @@
 
 using namespace std;
 
-int main()
-{
-    interface();
-//    Matrix<int> testMatrix1;
-//    testCreateMatrix(10,10);
-//    testDuplicateMatrix(5,5);
-//    testSaveMatrix(5,5);
-//    testLoadMatrix("testMatrix5.txt");
+int main(int argc, char *argv[])
 
+{
+    interface(argc,argv);
+
+    return 0;
 }
